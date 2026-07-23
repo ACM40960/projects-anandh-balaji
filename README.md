@@ -1,66 +1,90 @@
 [![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/-bKyY6qM)
 [![Open in Visual Studio Code](https://classroom.github.com/assets/open-in-vscode-2e0aaae1b6195c2367325f4f02e2d04e9abb55f0b24a779b69b11b9e10269abc.svg)](https://classroom.github.com/online_ide?assignment_repo_id=23935060&assignment_repo_type=AssignmentRepo)
 
-# BóSight — Multimodal Dairy Cow Health Monitoring
+# BóSight — Multimodal Monitoring of Dairy Cow Health and Behaviour
 
-An automated monitoring system for dairy-cow health and behaviour, built on the
-**MmCows** multimodal dataset (NeurIPS 2024). A multi-stage deep-learning pipeline
-turns overhead barn-camera frames + wearable-sensor streams into per-cow behaviour,
-body-condition estimates, and health alerts, presented in an interactive dashboard.
+*MSc in Data & Computational Science — University College Dublin*
 
-## Pipeline
+> *"Bó"* is the Irish word for cow. BóSight combines computer vision and wearable-sensor
+> data to give farmers automated "sight" into the health and behaviour of a dairy herd.
 
-```
-frame → [1] detect → [2] re-ID → [3] track → [4] behaviour → [5a] BCS ┐
-                                                     └──────→ [5b] sensor fusion → alert → dashboard
-```
+---
 
-| Stage | Description | Metric |
+## 1. Problem statement
+
+Modern dairy farming operates at a scale where continuous manual observation of every
+animal is impractical. Yet many health problems — lameness, metabolic stress, illness,
+reduced feeding — first show up as subtle, gradual changes in an individual cow's
+behaviour and physiology. These early signs are easily missed, and by the time a cow is
+visibly unwell, welfare and milk yield have often already suffered.
+
+Precision Livestock Farming (PLF) aims to close this gap using sensing and machine
+learning. The challenge is that no single data source tells the whole story: cameras
+capture what a cow *does* but not its internal state, while wearable sensors capture
+movement and temperature but not context. **BóSight** investigates how these
+complementary signals can be combined into an automated, per-animal monitoring system.
+
+## 2. Objectives
+
+The project aims to build an end-to-end pipeline that, for each cow in a barn, can:
+
+1. **Detect and localise** individual animals in overhead camera footage.
+2. **Identify** each animal consistently by its unique coat pattern (re-identification).
+3. **Track** identities across time.
+4. **Classify behaviour** into key daily activities (lying, standing, feeding, moving).
+5. **Estimate body condition** as an indicator of nutritional state.
+6. **Fuse vision with wearable-sensor data** (motion, body temperature, location) to
+   flag animals that may need attention.
+7. **Present** the results in an interactive dashboard usable by a non-technical farmer.
+
+## 3. Dataset
+
+The project uses **MmCows** (Vu et al., *NeurIPS 2024*), a publicly available multimodal
+dataset from a 14-day deployment with a herd of Holstein-Friesian dairy cows. It provides
+synchronised overhead camera footage, manual behaviour annotations, and wearable-sensor
+streams (inertial motion, core body temperature, and ultra-wideband positioning). The
+Holstein-Friesian breed is also the dominant dairy breed in Ireland, making the work
+directly relevant to the Irish agricultural context.
+
+## 4. Approach
+
+BóSight is structured as a multi-stage pipeline. Each stage consumes the output of the
+previous one, moving from raw pixels to an actionable, per-cow health summary.
+
+| Stage | Goal | Method (planned) |
 |---|---|---|
-| 1. Detection | YOLOv8 cow detector | mAP@0.5 = 0.992 |
-| 2. Re-identification | ResNet-50, 16 identities | 97% accuracy |
-| 3. Tracking | Detection + re-ID per frame | 98.4% accuracy |
-| 4. Behaviour | ResNet-50, 4-class (lying/standing/feeding/moving) | 95.0% acc, 0.807 macro-F1 |
-| 5a. Body condition | Geometric proxy (no ground truth) | relative ranking |
-| 5b. Health alerts | Rule-based screening over fused features | healthy / suspect / critical |
+| Detection | Locate every cow in a frame | Fine-tuned object detector (YOLO family) |
+| Re-identification | Assign the correct identity to each cow | Deep metric / classification model on coat patterns |
+| Tracking | Maintain identity over time | Appearance-based association across frames |
+| Behaviour classification | Label each cow's activity | CNN image classifier (transfer learning) |
+| Body condition | Estimate nutritional state | Vision-based estimation |
+| Sensor fusion & alerts | Combine vision + sensors into a health signal | Feature fusion + screening logic |
+| Dashboard | Communicate results | Interactive web app |
 
-## Repository layout
+## 5. Methodology notes
 
-```
-├── week5_behaviour_classifier.ipynb        # Week 5 — behaviour classifier (local variant)
-├── _bosight_week5_kaggle_upd_.ipynb        # Week 5 — behaviour classifier (Kaggle/GPU)
-├── week6_bcs_KAGGLE.ipynb                   # Week 6 — body-condition-score proxy
-├── week7_make_cow_day_features.py          # Week 7 — multimodal sensor fusion
-├── week8_make_alerts.py                    # Week 8 — rule-based health alerts
-├── app.py                                  # Week 9 — Streamlit dashboard
-├── report/                                 # evaluation figures + writeups
-├── outputs/                                # pipeline result tables + dashboard screenshots
-├── KAGGLE_GUIDE.md                         # how to run training on Kaggle
-└── requirements.txt
-```
+- **Behaviour categories** are derived from the dataset's fine-grained annotations and
+  grouped into four operationally meaningful classes (lying, standing, feeding, moving).
+- **Class imbalance** is expected (resting behaviours dominate) and will be addressed
+  during training.
+- **Sensor alignment** relies on the dataset's shared timestamp convention, enabling an
+  exact join between visual and wearable data per animal.
+- **Scope decisions** (e.g. which modalities are informative given the available data)
+  are documented as the project progresses.
 
-Large artefacts (trained model weights, raw crop images, the Python venv) are excluded
-from git — the notebooks regenerate them.
+## 6. Technologies
 
-## Running the dashboard
+Python · PyTorch / torchvision · scikit-learn · pandas / NumPy · Streamlit ·
+Jupyter · Kaggle / Google Colab (GPU training).
 
-```powershell
-pip install -r requirements.txt
-streamlit run app.py
-```
+## 7. Project organisation
 
-The dashboard reads the precomputed parquet files in `outputs/` — no GPU or model
-inference needed to view it.
+This is a two-person project. The work is split into a **vision front-end** (detection,
+re-identification, tracking) and a **behaviour, body-condition, sensor-fusion and
+dashboard** component, with joint integration and evaluation.
 
-## Dataset notes
+## 8. References
 
-- **4-class behaviour mapping:** MmCows codes 1→moving, 2→standing, 3/4→feeding, 7→lying; codes 0/5/6 excluded.
-- **Milk yield excluded** from the health pipeline: only one annotated day exists, so there is no multi-day baseline for a yield-trend signal.
-- **Wearables cover C01–C10 only** (IMU/CBT/UWB); C11–C16 are camera-only.
-- **Timestamps** are Unix epoch in CDT (UTC−5); integer match across all modalities.
-
-## Team
-
-Two-person project: one half owns the vision front-end (detection, re-identification,
-tracking); the other owns behaviour classification, body condition, sensor fusion, and
-the dashboard.
+Vu, H., Prabhune, O., Raskar, U., Panditharatne, D., Chung, H., Choi, C. Y., & Kim, Y.
+(2024). *MmCows: A Multimodal Dataset for Dairy Cattle Monitoring.* Advances in Neural
+Information Processing Systems (NeurIPS) 37.

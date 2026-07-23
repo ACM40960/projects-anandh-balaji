@@ -1,0 +1,20 @@
+# --- environments & caches ---
+venv/
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+.claude/
+
+# --- raw data & large uploads (regenerable / too big for git) ---
+data/
+kaggle_upload/
+
+# --- trained model weights: too large for GitHub (regenerate via the notebooks) ---
+*.pt
+
+# --- OS cruft ---
+.DS_Store
+Thumbs.db
+
+# --- stray file from an unrelated project (not part of BóSight) ---
+outputs/index.html

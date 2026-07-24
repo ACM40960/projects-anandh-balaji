@@ -9,9 +9,6 @@ __pycache__/
 data/
 kaggle_upload/
 
-# --- trained model weights: too large for GitHub (regenerate via the notebooks) ---
-*.pt
-
 # --- OS cruft ---
 .DS_Store
 Thumbs.db

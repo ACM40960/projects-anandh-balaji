@@ -112,7 +112,7 @@ sensor fields are shown as clearly marked "N/A" rather than blank or `NaN`.
 ![Rule breakdown](docs/dashboard_rule_breakdown.jpeg)
 
 ```bash
-streamlit run app.py
+streamlit run src/09_app.py
 ```
 
 ## 6. Repository structure
@@ -129,6 +129,7 @@ bosight/
 │   ├── 06_bcs.ipynb
 │   ├── 07_make_cow_day_features.py
 │   ├── 08_make_alerts.py
+|   ├── 09_app.py
 │   └── 10_make_confusion_matrix.py
 ├── evaluation/
 │   ├── case_studies.md              # end-to-end pipeline walk-through, 4 cows
@@ -150,8 +151,7 @@ bosight/
 │   ├── behaviour_daily.parquet
 │   ├── bcs_daily.parquet
 │   ├── cow_daily_features.parquet
-│   └── alerts_daily.parquet
-├── app.py                          # 09: Streamlit dashboard
+│   └── alerts_daily.parquet                         
 ├── requirements.txt
 └── README.md
 ```

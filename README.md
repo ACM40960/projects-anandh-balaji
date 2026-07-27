@@ -1,6 +1,3 @@
-[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/-bKyY6qM)
-[![Open in Visual Studio Code](https://classroom.github.com/assets/open-in-vscode-2e0aaae1b6195c2367325f4f02e2d04e9abb55f0b24a779b69b11b9e10269abc.svg)](https://classroom.github.com/online_ide?assignment_repo_id=23935060&assignment_repo_type=AssignmentRepo)
-
 # BóSight: Multimodal Monitoring of Dairy Cow Health and Behaviour
 
 *MSc in Data & Computational Science, University College Dublin*
@@ -50,6 +47,12 @@ cows. The Holstein-Friesian breed is also the dominant dairy breed in Ireland, m
 the work directly relevant to the Irish agricultural context represented in the
 VistaMilk research programme.
 
+**Getting the data:** MmCows is not bundled in this repository (the visual and sensor
+streams together exceed 35GB, well beyond what's practical to host on GitHub, and it
+isn't this project's data to redistribute). Download it directly from the original
+source: https://openreview.net/forum?id=X4nq0W2qZX. Once downloaded, `src/00_data_setup.ipynb`
+handles extraction and folder verification against the paths the rest of the pipeline expects.
+
 ## 4. Pipeline and results
 
 BóSight is a multi-stage pipeline. Each stage consumes the output of the previous one,
@@ -84,7 +87,7 @@ walk-throughs of individual cows through the entire pipeline are in `evaluation/
 
 ## 5. Dashboard
 
-The Streamlit dashboard (`app.py`) reads precomputed parquet outputs only, with no live
+The Streamlit dashboard (`src/09_app.py`) reads precomputed parquet outputs only, with no live
 model inference, so it runs instantly with no GPU.
 
 - **Herd Overview:** alert summary, herd behaviour distribution, "cows needing
@@ -129,7 +132,7 @@ bosight/
 │   ├── 06_bcs.ipynb
 │   ├── 07_make_cow_day_features.py
 │   ├── 08_make_alerts.py
-|   ├── 09_app.py
+│   ├── 09_app.py                    # Streamlit dashboard
 │   └── 10_make_confusion_matrix.py
 ├── evaluation/
 │   ├── case_studies.md              # end-to-end pipeline walk-through, 4 cows
@@ -151,7 +154,7 @@ bosight/
 │   ├── behaviour_daily.parquet
 │   ├── bcs_daily.parquet
 │   ├── cow_daily_features.parquet
-│   └── alerts_daily.parquet                         
+│   └── alerts_daily.parquet
 ├── requirements.txt
 └── README.md
 ```

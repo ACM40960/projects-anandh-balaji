@@ -19,10 +19,12 @@ matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import seaborn as sns
 
+REPO  = Path(__file__).resolve().parent.parent            # repo root (this file is in src/)
+CKPT  = str(REPO / 'models' / 'behaviour_best.pt')        # trained model, in the repo
+OUT   = REPO / 'evaluation'                                # where the figures are written
+# External inputs (not in the repo — set to your local MmCows copies):
 CROPS = Path('D:/D2/bosight/data/content/bosight_crops/test')
 BEH   = Path('D:/D2/sensor_data/sensor_data/behavior_labels/individual')
-CKPT  = 'D:/D2/bosight/outputs/behaviour_best.pt'
-OUT   = Path('D:/D2/bosight/report')
 CLASSES = ['lying', 'standing', 'feeding', 'moving']
 C2I = {c: i for i, c in enumerate(CLASSES)}
 CODE2CLASS = {1: 'moving', 2: 'standing', 3: 'feeding', 4: 'feeding', 7: 'lying'}

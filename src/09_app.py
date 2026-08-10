@@ -1,18 +1,24 @@
 """
-BóSight — Herd Health Dashboard (Week 9).
+BóSight Week 9: Herd Health Dashboard
 
-The front end for the whole pipeline. It does NOT run any models — by this point
-everything (behaviour, BCS, sensor features, alerts) is already sitting in the parquet
-files under outputs/, so the dashboard just reads those and draws them. That keeps it
-snappy and means it'll happily run on a laptop with no GPU.
+Interactive Streamlit front end for the whole pipeline. It performs no model inference —
+by this stage every output (behaviour budget, BCS proxy, fused features, alerts) is already
+stored as parquet under outputs/, so the dashboard only reads and visualises those. This
+keeps it fast and lets it run on any laptop without a GPU.
 
-Two pages:
-  - Herd Overview  : the "how's the whole barn doing" screen — alert counts, a
-                     behaviour breakdown, and a colour-coded table you can sort.
-  - Per-Cow Detail : drill into one cow — photo, behaviour, sensors, and a plain-English
-                     breakdown of which health rules fired and why.
+Pages:
+  1. Herd Overview  : alert summary, herd behaviour distribution, "cows needing attention"
+                      panel, and a sortable, colour-coded All Cows table with CSV export.
+  2. Per-Cow Detail : reference photo, 24h behaviour donut, body/sensor metrics, the full
+                      seven-rule health breakdown, and a herd-comparison chart.
 
-Run:  streamlit run app.py
+Notes:
+  - Vision-only cows (C11-C16, no wearables) are handled explicitly; sensor fields are
+    shown as clearly-marked "N/A" rather than blank or NaN.
+  - OUT_DIR is repo-relative; GALLERY is external reference photos (optional — a placeholder
+    is shown when a photo is missing).
+
+Run:  streamlit run src/09_app.py
 """
 import glob
 from pathlib import Path

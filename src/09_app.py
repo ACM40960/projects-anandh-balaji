@@ -1,5 +1,5 @@
 """
-BóSight Week 9: Herd Health Dashboard
+BóSight: Herd Health Dashboard
 
 Interactive Streamlit front end for the whole pipeline. It performs no model inference —
 by this stage every output (behaviour budget, BCS proxy, fused features, alerts) is already

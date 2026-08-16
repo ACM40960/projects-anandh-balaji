@@ -1,5 +1,5 @@
 """
-BóSight Week 8: Health Alert Screening
+BóSight: Health Alert Screening
 
 Turns the fused per-cow-day feature vector (Week 7) into a health status —
 healthy / suspect / critical — for each cow.

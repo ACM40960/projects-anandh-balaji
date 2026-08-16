@@ -1,5 +1,5 @@
 """
-BóSight Week 7: Sensor Fusion
+BóSight: Sensor Fusion
 
 Combines the vision-derived outputs (behaviour time-budget from Week 5 and the BCS proxy
 from Week 6) with the wearable-sensor streams into a single feature vector per cow per day.

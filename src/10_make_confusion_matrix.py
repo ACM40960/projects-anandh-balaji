@@ -1,5 +1,5 @@
 """
-BóSight Week 10: Behaviour Confusion Matrix (evaluation figure)
+BóSight: Behaviour Confusion Matrix (evaluation figure)
 
 Re-runs the trained behaviour classifier over the held-out test crops and writes the
 confusion matrix (raw counts + row-normalised) and per-class report to evaluation/.

@@ -201,3 +201,8 @@ via deep metric learning.* Computers and Electronics in Agriculture 185:106133.
 
 Paulauskaite-Taraseviciene, A. et al. (2026). *AI-Driven Multimodal Sensing for Early
 Detection of Health Disorders in Dairy Cows.* Animals 16(3):411.
+
+## 10. Authors
+
+Anandh Venkataraman - 25201357
+Balaji Velayutham Sornalaskhmi - 25208158
